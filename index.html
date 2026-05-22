@@ -1,1 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slope Voidition</title>
+    <style>
+        body { margin: 0; overflow: hidden; background-color: #000; font-family: 'Courier New', Courier, monospace; user-select: none; }
+        #ui-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+        #score-board { position: absolute; top: 20px; left: 20px; color: #00ff00; font-size: 28px; font-weight: bold; text-shadow: 0 0 10px #00ff00; }
+        #game-over { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #ff0000; font-size: 64px; font-weight: bold; text-align: center; text-shadow: 0 0 20px #ff0000; display: none; pointer-events: auto; }
+        #restart-btn { margin-top: 20px; padding: 10px 20px; font-size: 24px; color: #000; background-color: #00ff00; border: none; cursor: pointer; font-weight: bold; box-shadow: 0 0 10px #00ff00; }
+        #restart-btn:hover { background-color: #ffffff; box-shadow: 0 0 20px #ffffff; }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
 
+    <div id="ui-layer">
+        <div id="score-board">Distance: <span id="distance">0</span>m</div>
+        <div id="game-over">
+            VOIDED OUT!<br>
+            <button id="restart-btn" onclick="location.reload()">RETRY</button>
+        </div>
+    </div>
+
+    <script type="module" src="./sys/main.js"></script>
+
+</body>
+</html>
