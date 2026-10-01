@@ -118,7 +118,9 @@ export class Environment {
 
         const zPos = this.nextPlatformZ - (length / 2);
         const yPos = this.currentY;
-        platformGroup.position.set(gridStaggerX, yPos - 1, zPos);
+        const slopeAngle = Math.atan2(drop, length);
+        platformGroup.rotation.x = -slopeAngle;
+        platformGroup.position.set(gridStaggerX, yPos - 1 - (drop / 2), zPos);
 
         this.scene.add(platformGroup);
 
