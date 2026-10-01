@@ -97,7 +97,7 @@ export class Environment {
      */
     _spawnPlatform(playerSpeed) {
         // Determine grid width (Randomly selecting between narrow 2-block and wide 5-block layouts)
-        const blocksWide = Math.floor(Math.random() * 4) + 2; // Results in 2, 3, 4, or 5
+        const blocksWide = Math.floor(Math.random() * 3) + 4; // Results in 4, 5, or 6
         const width = blocksWide * this.unitsPerBlock;
         const length = Math.random() * 30 + 25; // Continuous run length between 25 and 55 units
 
@@ -113,7 +113,7 @@ export class Environment {
         const platformGroup = this._createCompositeMesh(width, length);
         
         // Randomly stagger horizontal alignments relative to the central void axis
-        const maxStaggerBlocks = 2;
+        const maxStaggerBlocks = 1;
         const gridStaggerX = (Math.floor(Math.random() * (maxStaggerBlocks * 2 + 1)) - maxStaggerBlocks) * (this.unitsPerBlock * 0.5);
 
         const zPos = this.nextPlatformZ - (length / 2);
