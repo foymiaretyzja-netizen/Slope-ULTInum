@@ -3,9 +3,12 @@
  * Handles procedural grid platform generation, speed-scaled gap spacing, 
  * and solid-wireframe composite aesthetics.
  */
+import { ObstacleManager } from './obstacles.js';
+
 export class Environment {
     constructor(scene) {
         this.scene = scene;
+        this.obstacleManager = new ObstacleManager(scene, this.unitsPerBlock);
         
         // --- 1. Track & Grid Configurations ---
         this.unitsPerBlock = 3.5; // Every 1 grid block = 3.5 units of actual 3D width
@@ -133,6 +136,9 @@ export class Environment {
 
         // Terminate generation tracker sequence at the end of this platform
         this.nextPlatformZ -= length;
+
+        // Populate the newly generated platform with hazards.
+        this.obstacleManager.generateObstacles(this.platforms[this.platforms.length - 1], this.platforms.length - 1, blocksWide, length);
     }
 
     /**
@@ -142,6 +148,8 @@ export class Environment {
      * @param {number} playerSpeed - Current forward velocity vector of the player ball.
      */
     update(playerZ, playerSpeed) {
+        this.obstacleManager.update(playerZ);
+
         // Keep generating runway geometries up to 250 units downstream ahead of the camera view
         while (this.nextPlatformZ > playerZ - 250) {
             this._spawnPlatform(playerSpeed);
