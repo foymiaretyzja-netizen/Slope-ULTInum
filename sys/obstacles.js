@@ -186,14 +186,14 @@ export class ObstacleManager {
      * Orchestrates moving blocks animations and memory cleanup.
      */
     update(playerZ) {
-        const time = performance.now() * 0.004;
+        const time = performance.now() * 0.0018;
 
         // Animate moving asynchronous blocks up and down
         for (let obj of this.movingGroups) {
             // Apply unique wave rhythm calculations based on structural offsets
             const wave = Math.sin(time + obj.timeOffset);
             // Translate up and down neatly out of the platform bed surface
-            obj.mesh.position.y = obj.baseY + (wave * 2.2); 
+            obj.mesh.position.y = obj.baseY + (wave * 3.0); 
             // Refresh physical collision tracking definitions
             obj.boundingBox.setFromObject(obj.mesh);
         }
