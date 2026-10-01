@@ -8,7 +8,6 @@ import { ObstacleManager } from './obstacles.js';
 export class Environment {
     constructor(scene) {
         this.scene = scene;
-        this.obstacleManager = new ObstacleManager(scene, this.unitsPerBlock);
         
         // --- 1. Track & Grid Configurations ---
         this.unitsPerBlock = 3.5; // Every 1 grid block = 3.5 units of actual 3D width
@@ -17,6 +16,7 @@ export class Environment {
         // Procedural cursor tracking
         this.nextPlatformZ = 15;  // Spawning cursor along the Z axis (starts behind player)
         this.currentY = 0;        // Track elevation changes down the slope
+        this.obstacleManager = new ObstacleManager(scene, this.unitsPerBlock);
 
         // --- 2. Aesthetic Design (Solid Fill + Wireframe Edges) ---
         this.themeColor = 0x00ff00; // Neon Green wireframe lines
@@ -47,6 +47,7 @@ export class Environment {
         this.platforms.push({
             group: platformGroup,
             y: yPos,
+            slopeDrop: 0,
             minX: -width / 2,
             maxX: width / 2,
             minZ: this.nextPlatformZ - length,
@@ -100,13 +101,10 @@ export class Environment {
         const width = blocksWide * this.unitsPerBlock;
         const length = Math.random() * 30 + 25; // Continuous run length between 25 and 55 units
 
-        // Calculate speed-compensated hazard gaps
-        // Basal gap scales dynamically up as forward velocity spikes
-        const dynamicGapModifier = playerSpeed * 9;
-        const gap = Math.random() > 0.4 ? Math.random() * dynamicGapModifier + 2 : 0; 
-
-        // Create downhill slope drop
-        const drop = Math.random() * 3 + 0.5;
+        // Build a continuous downhill track. Slope stays playable while the elevation
+        // changes gradually instead of creating random impossible holes.
+        const gap = 0;
+        const drop = Math.random() * 1.2 + 0.35;
 
         // Apply spatial transformations to layout cursors
         this.currentY -= drop;
@@ -128,6 +126,7 @@ export class Environment {
         this.platforms.push({
             group: platformGroup,
             y: yPos,
+            slopeDrop: drop,
             minX: gridStaggerX - width / 2,
             maxX: gridStaggerX + width / 2,
             minZ: this.nextPlatformZ - length,
@@ -158,7 +157,7 @@ export class Environment {
         // Garbage Collection: Safely strip spent runway meshes left 40 units behind the player field of view
         const clearBoundZ = playerZ + 40;
         this.platforms = this.platforms.filter(platform => {
-            if (platform.maxZ > clearBoundZ) {
+            if (platform.minZ > clearBoundZ) {
                 this.scene.remove(platform.group);
                 return false;
             }
