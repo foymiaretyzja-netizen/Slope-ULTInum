@@ -1,5 +1,5 @@
 import { Player } from './player.js';
-import { Environment } from './environment.js';
+import { Environment } from './enviroment.js';
 
 // --- 1. Global Viewport Setup ---
 const scene = new THREE.Scene();
