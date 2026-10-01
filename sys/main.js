@@ -29,7 +29,8 @@ function handleSystemsPhysics() {
         // Check if the ball's current coordinates overlap a platform's physical boundaries
         if (pz <= p.maxZ && pz >= p.minZ) {
             if (px >= p.minX && px <= p.maxX) {
-                currentFloorY = p.y;
+                const t = (p.maxZ - pz) / (p.maxZ - p.minZ);
+                currentFloorY = p.y - (p.slopeDrop * t);
                 break; // Found the active platform surface, stop searching
             }
         }
