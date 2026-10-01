@@ -24,9 +24,9 @@ export class Player {
 
         // Lateral Movement / Steering (X-Axis)
         this.velocityX = 0;           // Current horizontal velocity
-        this.strafeSpeed = 0.06;      // How fast the ball accelerates sideways
-        this.maxSpeedX = 0.55;        // Maximum steering speed
-        this.frictionX = 0.88;         // Slippery damping coefficient (gives "weight" to turning)
+        this.strafeSpeed = 0.025;     // Gradual lateral acceleration
+        this.maxSpeedX = 0.5;         // Maximum steering speed
+        this.frictionX = 0.84;         // Smoothly slows the ball when steering is released
 
         // Vertical Movement / Gravity (Y-Axis)
         this.velocityY = 0;           // Current vertical velocity
